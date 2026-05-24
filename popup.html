@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webpage Brief</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">WB</div>
+          <div>
+            <h1>Webpage Brief</h1>
+            <p class="subtitle">Local extractive page summaries</p>
+          </div>
+        </div>
+      </header>
+
+      <section class="primary-actions" aria-label="Summary controls">
+        <label for="sentence-count">
+          Length
+          <input id="sentence-count" type="range" min="2" max="5" value="4" />
+        </label>
+        <button id="summarize-button" class="button button-primary" type="button">Summarize page</button>
+      </section>
+
+      <section class="summary-panel" aria-live="polite">
+        <div class="summary-heading">
+          <h2 id="page-title">No summary yet</h2>
+          <p id="source-text" class="source">Open a webpage, then generate a brief.</p>
+        </div>
+        <ul id="summary-list" class="summary-list"></ul>
+        <div class="footer-row">
+          <div>
+            <p id="word-count" class="word-count"></p>
+            <p id="status-text" class="status">Ready.</p>
+          </div>
+          <div class="secondary-actions">
+            <button id="copy-button" class="button button-secondary" type="button" disabled>Copy</button>
+            <button id="download-button" class="button button-secondary" type="button" disabled>Export</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/extension/popup.ts"></script>
+  </body>
+</html>

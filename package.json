@@ -1,0 +1,29 @@
+{
+  "name": "webpage-brief-extension",
+  "version": "1.0.0",
+  "description": "A local-first browser extension that summarizes the current webpage.",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "lint": "eslint .",
+    "test": "vitest run",
+    "build": "tsc --noEmit && vite build"
+  },
+  "keywords": [
+    "browser-extension",
+    "summarizer",
+    "typescript"
+  ],
+  "author": "yuvkun10",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/chrome": "^0.1.42",
+    "eslint": "^10.4.0",
+    "globals": "^17.6.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.4",
+    "vite": "^8.0.14",
+    "vitest": "^4.1.7"
+  }
+}
