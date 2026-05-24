@@ -27,6 +27,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit dependencies
+        run: npm run audit
+
+      - name: Check dependency freshness
+        run: npm run outdated
+
       - name: Lint
         run: npm run lint
 

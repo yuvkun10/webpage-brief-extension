@@ -7,6 +7,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "vitest run",
+    "audit": "npm audit --audit-level=moderate",
+    "outdated": "npm outdated",
     "build": "tsc --noEmit && vite build"
   },
   "keywords": [
