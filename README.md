@@ -33,6 +33,8 @@ flowchart LR
   Render --> Export[Export plain text]
 ```
 
+Diagram source: [docs/architecture.mmd](docs/architecture.mmd).
+
 The extension does not generate new claims. It extracts and ranks sentences that already appear on the page. The summarizer favors visible article-like content, title overlap, useful sentence length, and early page position while penalizing common boilerplate such as cookie notices, menus, login prompts, and social-sharing text.
 
 ## Permissions and privacy

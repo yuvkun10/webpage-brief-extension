@@ -1,0 +1,9 @@
+flowchart LR
+  User[User opens popup] --> ActiveTab[Active tab permission]
+  ActiveTab --> Inject[Inject page extractor]
+  Inject --> Snapshot[Collect title, URL, metadata, and readable blocks]
+  Snapshot --> Rank[Score content blocks]
+  Rank --> Summarize[Select extractive summary sentences]
+  Summarize --> Render[Render local brief]
+  Render --> Copy[Copy to clipboard]
+  Render --> Export[Export plain text]
