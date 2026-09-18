@@ -1,78 +1,21 @@
 # Webpage Brief Extension
 
-Webpage Brief is a Manifest V3 browser extension that turns the current tab into a short, local, extractive summary. It reads visible page text in the browser, scores likely content blocks, selects high-value sentences, and lets you copy or export the result as plain text.
+Webpage Brief is a Manifest V3 browser extension that turns the current tab into a short
+extractive summary. It reads visible page text in the browser, scores likely content
+blocks, selects high-value sentences, and lets you copy or export the result as plain
+text. Everything runs locally; there is no backend. Version 1.0.0.
 
-The extension is designed for people who review lots of web pages and need a quick brief before deciding whether to read, save, share, or cite the full source.
+## Installation
 
-## Who it is for
-
-- Researchers and students triaging articles, documentation, and references.
-- Product, engineering, and support teams scanning changelogs, docs, and issue pages.
-- Operators and analysts who need a fast page brief without sending page content to a hosted summarization service.
-- Privacy-conscious users who prefer deterministic local extraction over remote AI processing.
-
-## Real-world use cases
-
-- Summarize a long article before deciding whether it belongs in a reading queue.
-- Extract the main points from release notes, help docs, or technical blog posts.
-- Create a quick meeting-prep note from a product page or support article.
-- Copy a short source-linked brief into notes, tickets, or research logs.
-- Export a plain-text summary for offline review.
-
-## How it works
-
-```mermaid
-flowchart LR
-  User[User opens popup] --> ActiveTab[Active tab permission]
-  ActiveTab --> Inject[Inject page extractor]
-  Inject --> Snapshot[Collect title, URL, metadata, and readable blocks]
-  Snapshot --> Rank[Score content blocks]
-  Rank --> Summarize[Select extractive summary sentences]
-  Summarize --> Render[Render local brief]
-  Render --> Copy[Copy to clipboard]
-  Render --> Export[Export plain text]
-```
-
-Diagram source: [docs/architecture.mmd](docs/architecture.mmd).
-
-The extension does not generate new claims. It extracts and ranks sentences that already appear on the page. The summarizer favors visible article-like content, title overlap, useful sentence length, and early page position while penalizing common boilerplate such as cookie notices, menus, login prompts, and social-sharing text.
-
-## Permissions and privacy
-
-Webpage Brief uses only these Chrome extension permissions:
-
-- `activeTab`: temporarily access the tab where you click the extension.
-- `scripting`: run the local page extractor in that active tab.
-
-Privacy posture:
-
-- Page content is processed locally in the browser.
-- There is no backend service.
-- There are no API keys or required environment variables.
-- The extension does not declare host-wide permissions.
-- The extension does not send page content, summaries, or URLs to a remote service.
-
-Clipboard access is used only when you click the Copy button. Plain-text export creates a local `.txt` download from the generated brief.
-
-## Setup
-
-Prerequisites:
-
-- Node.js 24.x
-- npm
-- A Chromium-based browser that supports Manifest V3 extensions
-
-Install dependencies:
+Prerequisites: Node.js 24.x, npm, and a Chromium-based browser that supports Manifest V3
+extensions. No environment variables are required.
 
 ```bash
 npm ci
-```
-
-Build the extension:
-
-```bash
 npm run build
 ```
+
+## Usage
 
 Load the unpacked extension:
 
@@ -82,7 +25,7 @@ Load the unpacked extension:
 4. Select the generated `dist` folder.
 5. Open a webpage, click Webpage Brief, choose a summary length, and click Summarize page.
 
-## Commands
+Daily commands:
 
 ```bash
 npm run lint       # Run ESLint
@@ -92,37 +35,62 @@ npm run audit      # Fail on moderate-or-higher npm advisories
 npm run outdated   # Report stale npm dependencies
 ```
 
-## Codebase structure
+There is no release or store publishing setup in this repository.
+
+## Project structure
 
 ```text
-.
-|-- .github/
-|   |-- dependabot.yml        # Weekly npm and GitHub Actions update checks
-|   `-- workflows/ci.yml      # CI lint, test, build, audit, and freshness checks
-|-- public/
-|   |-- manifest.json         # Manifest V3 extension metadata and permissions
-|   `-- icons/                # Extension icons
-|-- src/
-|   |-- domain/
-|   |   |-- briefFormatting.ts
-|   |   |-- contentScoring.ts
-|   |   `-- summarizer.ts
-|   `-- extension/
-|       |-- pageExtractor.ts  # In-page readable text extraction
-|       |-- popup.css
-|       `-- popup.ts          # Popup UI and browser extension wiring
-|-- tests/                    # Domain-level Vitest coverage
-|-- popup.html                # Extension popup shell
-|-- vite.config.ts            # Extension build configuration
-`-- .env.example              # Safe placeholder for future local config
+├── public
+│   ├── manifest.json
+│   └── icons
+├── src
+│   ├── domain
+│   │   ├── briefFormatting.ts
+│   │   ├── contentScoring.ts
+│   │   └── summarizer.ts
+│   └── extension
+│       ├── pageExtractor.ts
+│       ├── popup.css
+│       └── popup.ts
+├── tests
+├── docs
+│   ├── architecture.md
+│   └── archive
+├── popup.html
+├── vite.config.ts
+└── package.json
 ```
 
-## Dependency maintenance
+How the pieces fit together: [docs/architecture.md](docs/architecture.md).
 
-Dependency hygiene is handled in three places:
+## Coding style
 
-- `npm run audit` checks for moderate-or-higher vulnerabilities.
-- `npm run outdated` reports packages that are no longer current.
-- Dependabot opens weekly update pull requests for npm packages and GitHub Actions.
+ESLint runs the recommended JavaScript and typescript-eslint rule sets
+(`eslint.config.js`), and TypeScript runs in `strict` mode with `tsc --noEmit` as part of
+the build. CI runs both on every push to `main` and every pull request. There is no
+formatter or commit convention configured.
 
-CI runs the same checks on pushes to `main` and pull requests, alongside linting, tests, and the production build.
+```bash
+npm run lint
+npm run build
+```
+
+## Test
+
+```bash
+npm test
+```
+
+Vitest covers the domain modules: brief formatting, content scoring and the summarizer.
+The popup and page extractor have no automated tests.
+
+## Documentation
+
+- [docs/README.md](docs/README.md): index of all docs
+- [docs/architecture.md](docs/architecture.md): flow, components, permissions and privacy
+- [docs/overview.md](docs/overview.md): audience and use cases
+- [docs/operations.md](docs/operations.md): dependency maintenance
+
+## License
+
+MIT. See [LICENSE](LICENSE).
